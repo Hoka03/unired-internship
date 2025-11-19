@@ -1,10 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "admin/change_list.html" %}
 
-</body>
-</html>
+{% block object-tools %}
+  {{ block.super }}
+  <div style="margin-top: 15px;">
+      <a href="{% url 'admin:card_import' %}"
+         class="button"
+         style="background-color: #0c4b33; color: white; padding: 8px 16px; border-radius: 5px; text-decoration: none;
+          font-weight: bold;">
+         📥 Exceldan import qilish
+      </a>
+  </div>
+{% endblock %}

@@ -1,18 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 {% extends "admin/base_site.html" %}
+
 {% block content %}
-<h2>📥 Import Cards from Excel</h2>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="button button-primary">Upload</button>
-</form>
+  <h2 style="margin-bottom: 20px;">📥 Exceldan kartalarni import qilish</h2>
+
+  <form method="post" enctype="multipart/form-data" style="background: #fff; padding: 20px; border: 1px solid #ccc; border-radius: 8px;">
+      {% csrf_token %}
+      <fieldset style="border: none;">
+          {{ form.as_p }}
+      </fieldset>
+      <button type="submit" class="button default" style="margin-top: 10px; font-weight: bold;">
+          ⬆️ Yuklash
+      </button>
+  </form>
 {% endblock %}
-</body>
-</html>
