@@ -1,0 +1,13 @@
+.env
+venv
+db.sqlite3
+media/
+static
+staticfiles/
+apps/*/migrations/0*
+.idea
+exports/
+*.xlsx
+__pycache__/
+*.pyc
+*.pyo
