@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% extends "admin/base_site.html" %}
+{% block content %}
+<h2>📥 Import Cards from Excel</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="button button-primary">Upload</button>
+</form>
+{% endblock %}
+</body>
+</html>
