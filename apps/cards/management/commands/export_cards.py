@@ -30,7 +30,7 @@ class Command(BaseCommand):
         phone = options['phone']
         output_file = options['output']
 
-        today = datetime.now().strftime('%Y%m%d')
+        today = datetime.now().strftime('%Y/%m/%d/')
         export_dir = os.path.join(settings.BASE_DIR, 'exports', 'cards', today)
         os.makedirs(export_dir, exist_ok=True)
 
