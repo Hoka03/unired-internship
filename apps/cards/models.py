@@ -4,7 +4,8 @@ from apps.base.models import AbstractBaseModel
 from apps.cards.utils.balance_format import format_balance
 from apps.cards.utils.card_format import card_number_validate
 from apps.cards.utils.expire_format import format_expire
-from apps.cards.utils.phone_format import phone_validate
+from apps.cards.utils.phone_format import phone_validate, normalize_phone_number
+
 
 
 class Card(AbstractBaseModel):
@@ -46,3 +47,8 @@ class Card(AbstractBaseModel):
 
     def clean(self):
         self.expire = format_expire(self.expire)
+
+    def save(self, *args, **kwargs):
+        if self.phone_number:
+            self.phone_number = normalize_phone_number(self.phone_number)
+        super().save(*args, **kwargs)
