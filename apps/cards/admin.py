@@ -2,11 +2,12 @@ from django.contrib import admin, messages
 from django.shortcuts import redirect, render
 from django.urls import path
 
+from apps.cards.admin_actions.send_cards_to_telegram import send_selected_cards_to_telegram
 from apps.cards.forms import ExcelImportForm
 from apps.cards.models import Card
 from apps.cards.utils.card_format import card_mask, card_number_validate
 from apps.cards.utils.import_cards import import_cards_from_excel
-from apps.cards.utils.phone_format import phone_masK
+from apps.cards.utils.phone_format import phone_masK, normalize_phone_number
 
 
 @admin.register(Card)
@@ -22,17 +23,23 @@ class CardAdmin(admin.ModelAdmin):
     list_filter = ("card_status", "card_number", "phone_number")
     change_list_template = "cards/card_change_list.html"
     readonly_fields = ("card_status",)
+    actions = [send_selected_cards_to_telegram]
 
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.only("card_number", "phone_number", "balance", "expire", "card_status")
+
+    @admin.display(description="Card number")
     def masked_card(self, obj):
         return card_mask(obj.card_number)
-    masked_card.short_description = "Card number"
 
+    @admin.display(description="Phone Number")
     def masked_phone(self, obj):
         return phone_masK(obj.phone_number)
-    masked_phone.short_description = "Phone Number"
 
     def save_model(self, request, obj, form, change):
         obj.card_number = card_number_validate(obj.card_number)
+        obj.phone_number = normalize_phone_number(obj.phone_number)
         super().save_model(request, obj, form, change)
 
     def get_urls(self):
@@ -59,3 +66,4 @@ class CardAdmin(admin.ModelAdmin):
             form = ExcelImportForm()
 
         return render(request, "cards/import_card.html", {"form": form})
+
